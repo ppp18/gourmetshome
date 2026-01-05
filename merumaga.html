@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グルメのホーム</title>
+
+    <style>
+        textarea {
+            resize: none; /* 閲覧側でサイズ変更不可 */
+        }
+    </style>
+
+    <script>
+        let missCount = 0; // 間違い回数を記録
+
+        function checkCode(event) {
+            event.preventDefault(); // 通常送信を止める
+
+            const input = document.getElementById("question").value.trim();
+            const error = document.getElementById("error");
+
+            error.style.display = "none";
+
+            // 正解パスワード
+            if (input === "0912") {
+                window.location.href = "success.html";
+                return;
+            }
+
+            // ヒント判定（表記ゆれ対応）
+            const hintPatterns = [
+                "ヒント",
+                "ひんと",
+                "ﾋﾝﾄ",
+                "hint"
+            ];
+
+            if (hintPatterns.includes(input.toLowerCase())) {
+                window.location.href = "hint.html";
+                return;
+            }
+
+            // 不正解処理
+            missCount++;
+
+            if (missCount >= 3) {
+                error.textContent = "4桁の数字を入力してください。";
+            } else {
+                error.textContent = "正しく送信できませんでした。";
+            }
+
+            error.style.display = "block";
+        }
+    </script>
+</head>
+
+<body bgcolor="cococo">
+<center>
+    <h1>
+        <font color="990000">⭐︎質問コーナー⭐︎</font>
+    </h1>
+</center>
+
+<hr size="2">
+<br>
+
+<center>
+◆ホームページ・レシピに関するご質問などをどうぞ！
+<br><br>
+
+<form onsubmit="checkCode(event)">
+    <textarea
+        id="question"
+        name="comment"
+        rows="5"
+        cols="70"
+    ></textarea>
+    <br>
+
+    <input type="submit" value="送る">
+    <input type="reset" value="取消"><br><br>
+
+    <a href="index.html">
+        <font>ホームページに戻る</font>
+    </a>
+</form>
+
+<br>
+
+<font color="990000" id="error" style="display:none;">
+    正しく送信できませんでした。
+</font>
+
+</center>
+</body>
+</html>
